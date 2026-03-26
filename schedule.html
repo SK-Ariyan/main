@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Schedule</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h2>Weekly Schedule</h2>
+<div id="schedule"></div>
+
+<script src="core.js"></script>
+<script>
+
+// schedule already loaded from core.js
+
+let div = document.getElementById("schedule");
+
+if(Object.keys(schedule).length === 0){
+    div.innerHTML = "<p>No schedule found. Go create one first.</p>";
+}else{
+    for(let day in schedule){
+        let html = `<h3>${day}</h3>`;
+
+        schedule[day].forEach(t=>{
+            html += `<p>${t.subject} - ${t.duration} hr</p>`;
+        });
+
+        div.innerHTML += html;
+    }
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Calendar</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h2>Check by Date</h2>
+
+<input type="date" id="date">
+<button onclick="check()">Check</button>
+
+<div id="result"></div>
+
+<script src="core.js"></script>
+<script>
+
+function check(){
+
+    if(!date.value) return;
+
+    let day = new Date(date.value)
+        .toLocaleDateString("en-US",{weekday:"long"});
+
+    let tasks = schedule[day] || [];
+
+    result.innerHTML = "";
+
+    if(tasks.length === 0){
+        result.innerHTML = "No tasks for this day";
+        return;
+    }
+
+    tasks.forEach(t=>{
+        result.innerHTML += `<p>${t.subject} - ${t.duration} hr</p>`;
+    });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Todo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h2>Today's Tasks</h2>
+
+<div id="todo"></div>
+
+<script src="core.js"></script>
+<script>
+
+let today = new Date()
+    .toLocaleDateString("en-US",{weekday:"long"});
+
+let tasks = schedule[today] || [];
+
+if(tasks.length === 0){
+    todo.innerHTML = "No tasks today";
+}else{
+    tasks.forEach(t=>{
+        todo.innerHTML += `
+        <div>
+            <input type="checkbox">
+            ${t.subject} - ${t.duration} hr
+        </div>
+        `;
+    });
+}
+</script>
+
+</body>
+</html>

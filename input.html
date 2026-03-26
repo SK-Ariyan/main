@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Input</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<h2>Create Schedule</h2>
+
+<input id="subjects" placeholder="Subjects (comma)">
+<input id="weak" placeholder="Weak subject">
+
+<br>
+
+<input id="mon" placeholder="Mon">
+<input id="tue" placeholder="Tue">
+<input id="wed" placeholder="Wed">
+<input id="thu" placeholder="Thu">
+<input id="fri" placeholder="Fri">
+<input id="sat" placeholder="Sat">
+<input id="sun" placeholder="Sun">
+
+<br>
+
+<button onclick="generate()">Generate</button>
+
+<script src="core.js"></script>
+<script>
+function generate(){
+
+    let subjectsInput = document.getElementById("subjects").value;
+    let weakInput = document.getElementById("weak").value;
+
+    let subjects = parseSubjects(subjectsInput);
+
+    let weeklyTime = createWeeklyTime(
+        +document.getElementById("mon").value,
+        +document.getElementById("tue").value,
+        +document.getElementById("wed").value,
+        +document.getElementById("thu").value,
+        +document.getElementById("fri").value,
+        +document.getElementById("sat").value,
+        +document.getElementById("sun").value
+    );
+
+    createSchedule(subjects, weakInput, weeklyTime);
+
+    // ✅ SAVE
+    localStorage.setItem("schedule", JSON.stringify(schedule));
+
+    alert("✅ Schedule Created Successfully!");
+}
+</script>
+
+</body>
+</html>
