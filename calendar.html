@@ -2,42 +2,54 @@
 <html>
 <head>
 <title>Calendar</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="calender.css">
 </head>
 
 <body>
 
-<h2>Check by Date</h2>
+<div class="container">
 
-<input type="date" id="date">
-<button onclick="check()">Check</button>
+    <h2>📆 Check by Date</h2>
 
-<div id="result"></div>
+    <input type="date" id="date">
+    <button onclick="check()">Check</button>
+
+    <div id="result"></div>
+
+</div>
 
 <script src="core.js"></script>
+
 <script>
+async function check(){
 
-function check(){
+    let dateInput = document.getElementById("date");
+    let resultDiv = document.getElementById("result");
 
-    if(!date.value) return;
+    if(!dateInput.value) return;
 
-    let day = new Date(date.value)
-        .toLocaleDateString("en-US",{weekday:"long"});
+    let tasks = await fetchTasksByDate(dateInput.value);
 
-    let tasks = schedule[day] || [];
-
-    result.innerHTML = "";
+    resultDiv.innerHTML = "";
 
     if(tasks.length === 0){
-        result.innerHTML = "No tasks for this day";
+        resultDiv.innerHTML = `<p class="empty">No tasks</p>`;
         return;
     }
 
     tasks.forEach(t=>{
-        result.innerHTML += `<p>${t.subject} - ${t.duration} hr</p>`;
+        resultDiv.innerHTML += `
+            <div class="task">
+                <strong>${t.subject}</strong><br>
+                ⏱ ${t.duration} hr
+            </div>
+        `;
     });
 }
+
+
 </script>
 
 </body>
+
 </html>

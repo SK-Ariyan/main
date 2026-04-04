@@ -1,52 +1,71 @@
 let schedule = {};
 
+// -------------------- SUBJECTS --------------------
 function parseSubjects(input){
-    return input.split(",").map(s=>s.trim());
-}
-
-function createWeeklyTime(mon,tue,wed,thu,fri,sat,sun){
-    return {
-        Monday:mon,Tuesday:tue,Wednesday:wed,
-        Thursday:thu,Friday:fri,Saturday:sat,Sunday:sun
-    };
+    return input.split(",").map(s => s.trim()).filter(s => s);
 }
 
 function addWeakPriority(subjects, weak){
-    if(subjects.includes(weak)) subjects.push(weak);
+    if(weak && subjects.includes(weak)){
+        subjects.push(weak); // extra weight
+    }
     return subjects;
 }
 
-function generateDaily(subjects, hours){
+function fetchTasksByDate(date){
+    return new Promise((resolve)=>{
 
-    let shuffled = [...subjects].sort(() => Math.random() - 0.5);
+        let saved = localStorage.getItem("schedule");
+        let data = saved ? JSON.parse(saved) : {};
+
+        resolve(data[date] || []);
+    });
+}
+
+
+// -------------------- GENERATION --------------------
+function generateDaily(subjects, hours){
+    let main = subjects.filter(s => s !== "Revision" && s !== "Test");
+    let low = subjects.filter(s => s === "Revision" || s === "Test");
 
     let plan = [];
-    let i = 0;
-
     while(hours > 0){
-        plan.push({
-            subject: shuffled[i % shuffled.length],
-            duration: Math.min(1, hours)
-        });
-
+        let pool = Math.random() < 0.8 ? main : [...main, ...low];
+        let subject = pool[Math.floor(Math.random() * pool.length)];
+        plan.push({subject: subject, duration: 1});
         hours--;
-        i++;
     }
-
     return plan;
 }
 
+// -------------------- 1 YEAR SCHEDULE --------------------
+function createSchedule(subjects, weak, weeklyTime, options){
+    schedule = {};
 
-function createSchedule(subjects, weak, weeklyTime){
     subjects = addWeakPriority(subjects, weak);
 
-    for(let day in weeklyTime){
-        schedule[day] = generateDaily(subjects, weeklyTime[day]);
+    // Keep these as subjects in daily tasks
+    if(options.revision) subjects.push("Revision");
+    if(options.test) subjects.push("Test");
+
+    let start = new Date();
+
+    for(let i=0; i<365; i++){
+        let date = new Date();
+        date.setDate(start.getDate() + i);
+
+        let dayName = date.toLocaleDateString("en-US",{weekday:"long"});
+        let dateKey = date.toISOString().split("T")[0];
+
+        let hours = weeklyTime[dayName] || 0;
+
+        schedule[dateKey] = generateDaily(subjects, hours);
     }
+
+    saveSchedule(); // save immediately
 }
 
-
-// ALWAYS LOAD FROM STORAGE FIRST
+// -------------------- STORAGE --------------------
 function loadSchedule(){
     let saved = localStorage.getItem("schedule");
     if(saved){
@@ -54,6 +73,8 @@ function loadSchedule(){
     }
 }
 
-// CALL IT AUTOMATICALLY
-loadSchedule();
+function saveSchedule(){
+    localStorage.setItem("schedule", JSON.stringify(schedule));
+}
 
+loadSchedule();

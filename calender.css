@@ -1,0 +1,92 @@
+body {
+    font-family: 'Segoe UI';
+    background: linear-gradient(135deg, #020617, #0f172a);
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 100vh;
+    margin: 0;
+}
+
+h2 {
+    color: #38bdf8;
+    margin-bottom: 25px;
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+
+    padding: 30px;
+    border-radius: 15px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
+    width: 350px;
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+
+    background: rgba(255,255,255,0.1);
+    color: white;
+    margin-bottom: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+
+    background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    background: #38bdf8;
+}
+
+#result {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.task {
+    background: rgba(255,255,255,0.05);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+
+    border-left: 4px solid #38bdf8;
+    transition: 0.2s;
+}
+
+.task:hover {
+    background: rgba(56,189,248,0.15);
+}
+
+.empty {
+    text-align: center;
+    color: #94a3b8;
+}
+
+#date{
+    width: 95%;
+}

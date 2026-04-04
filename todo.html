@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Todo</title>
-<link rel="stylesheet" href="style.css">
+<title>Today</title>
+<link rel="stylesheet" href="todo.css">
 </head>
 
 <body>
@@ -14,8 +14,7 @@
 <script src="core.js"></script>
 <script>
 
-let today = new Date()
-    .toLocaleDateString("en-US",{weekday:"long"});
+let today = new Date().toISOString().split("T")[0];
 
 let tasks = schedule[today] || [];
 
@@ -31,6 +30,7 @@ if(tasks.length === 0){
         `;
     });
 }
+
 </script>
 
 </body>

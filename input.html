@@ -1,55 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Input</title>
-<link rel="stylesheet" href="style.css">
+    <title>Create Schedule</title>
+    <link rel="stylesheet" href="input.css">
 </head>
-
 <body>
-<h2>Create Schedule</h2>
+<div class="container">
 
-<input id="subjects" placeholder="Subjects (comma)">
-<input id="weak" placeholder="Weak subject">
+    <h2>Create Your Schedule</h2>
+    
+    <!-- Subjects -->
+    <div class="row">
+        <input id="subjects" placeholder="Subjects (comma)">
+        <input id="weak" placeholder="Weak subject">
+</div>
 
-<br>
+<!-- Current Day Input -->
+<h3 id="dayTitle">Monday</h3>
+<input id="hours" placeholder="Enter hours">
 
-<input id="mon" placeholder="Mon">
-<input id="tue" placeholder="Tue">
-<input id="wed" placeholder="Wed">
-<input id="thu" placeholder="Thu">
-<input id="fri" placeholder="Fri">
-<input id="sat" placeholder="Sat">
-<input id="sun" placeholder="Sun">
-
-<br>
-
-<button onclick="generate()">Generate</button>
+<!-- Buttons -->
+<div class="btns">
+    <button onclick="nextDay()">Next Day</button>
+    <button onclick="generate()">Generate Schedule</button>
+</div>
+</div>
 
 <script src="core.js"></script>
 <script>
+let days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+let index = 0;
+let weeklyTime = {};
+
+// ------------------- NEXT DAY -------------------
+function nextDay(){
+    let h = +document.getElementById("hours").value;
+
+    if(!h){
+        alert("Enter hours first");
+        return;
+    }
+
+    weeklyTime[days[index]] = h;
+    index++;
+
+    if(index < days.length){
+        document.getElementById("dayTitle").innerText = days[index];
+        document.getElementById("hours").value = "";
+    } else {
+        alert("✅ All days entered! Now click Generate.");
+        document.getElementById("dayTitle").innerText = "All days entered";
+    }
+}
+
+// ------------------- GENERATE -------------------
 function generate(){
+    if(Object.keys(weeklyTime).length < 7){
+        alert("Please enter hours for all 7 days first!");
+        return;
+    }
 
     let subjectsInput = document.getElementById("subjects").value;
+    if(!subjectsInput){
+        alert("Enter at least one subject!");
+        return;
+    }
+
     let weakInput = document.getElementById("weak").value;
 
     let subjects = parseSubjects(subjectsInput);
 
-    let weeklyTime = createWeeklyTime(
-        +document.getElementById("mon").value,
-        +document.getElementById("tue").value,
-        +document.getElementById("wed").value,
-        +document.getElementById("thu").value,
-        +document.getElementById("fri").value,
-        +document.getElementById("sat").value,
-        +document.getElementById("sun").value
-    );
-
     createSchedule(subjects, weakInput, weeklyTime);
 
-    // ✅ SAVE
+    // Save schedule
     localStorage.setItem("schedule", JSON.stringify(schedule));
 
     alert("✅ Schedule Created Successfully!");
+    window.location.href = "schedule.html";
 }
 </script>
 

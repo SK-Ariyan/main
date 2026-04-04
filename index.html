@@ -2,25 +2,28 @@
 <html>
 <head>
 <title>Home</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="home.css">
 </head>
 
 <body>
+
 <div class="container">
+
 <h1>📚 Study Planner</h1>
 
-<button onclick="go('input.html')">Create Schedule</button>
-<button onclick="go('schedule.html')">View Schedule</button>
+<button onclick="go('input.html')">Create</button>
+<button onclick="go('schedule.html')">Schedule</button>
 <button onclick="go('calendar.html')">Calendar</button>
-<button onclick="go('todo.html')">Today's Tasks</button>
-<button onclick="go('alert.html')">Alerts</button>
+<button onclick="go('todo.html')">Today</button>
+
 
 </div>
-<script src="core.js"></script>
+
 <script>
 function go(page){
     window.location.href = page;
 }
 </script>
+
 </body>
 </html>

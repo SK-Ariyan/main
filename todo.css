@@ -1,0 +1,57 @@
+body {
+    font-family: 'Segoe UI';
+    background: linear-gradient(135deg, #020617, #0f172a);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+
+h2 {
+    margin-bottom: 20px;
+    color: #22c55e;
+}
+
+.table {
+    max-width: 900px;
+    margin: auto;
+}
+
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+
+.header {
+    background: #22c55e;
+    color: black;
+    font-weight: bold;
+}
+
+
+
+
+.task {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 5px 0;
+}
+
+
+input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+
+label {
+    font-size: 14px;
+}
+
+
+

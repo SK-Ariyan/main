@@ -1,21 +1,128 @@
+/* styles.css: Unified dark theme and layout */
+
+/* Design tokens */
+:root {
+  --color-bg: #121212;
+  --color-surface: #1e1e1e;
+  --color-text: #e0e0e0;
+  --color-text-dark: #000000;
+  --color-primary: #38bdf8;
+  --color-secondary: #22c55e;
+  --color-error: #ef4444;
+  --font-sans: 'Segoe UI', system-ui, sans-serif;
+  --space-s: 0.5rem;
+  --space-m: 1rem;
+  --space-l: 2rem;
+  --border-radius: 0.5rem;
+}
+
+/* Basic reset and body styling */
+* { box-sizing: border-box; }
 body {
-    font-family: Arial;
-    background: #0f172a;
-    color: white;
-    text-align: center;
-    padding: 30px;
+  margin: 0; padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+h1, h2 { margin: var(--space-m) 0; color: var(--color-primary); }
+a { color: var(--color-primary); text-decoration: none; }
+a:hover, a:focus { color: var(--color-secondary); }
+
+/* Keyboard focus outline (WCAG 2.4.7) */
+:focus { outline: none; }
+:focus-visible { outline: 2px dashed var(--color-primary); }
+
+/* Navigation bar */
+header { text-align: center; padding: var(--space-m) 0; }
+nav ul {
+  list-style: none; padding: 0; margin: var(--space-s) 0;
+  display: flex; justify-content: center; gap: var(--space-m);
+}
+nav a { padding: var(--space-s) var(--space-m); }
+nav a[aria-current="page"] {
+  font-weight: bold; text-decoration: underline;
 }
 
+/* Forms and inputs */
+form, .form-group {
+  max-width: 600px; margin: 0 auto;
+  padding: var(--space-m);
+}
+label { display: block; margin: var(--space-s) 0 0.25em; }
+input, select, textarea {
+  width: 100%;
+  padding: var(--space-s);
+  border-radius: var(--border-radius);
+  border: 1px solid #444;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 1rem;
+}
+fieldset {
+  margin: var(--space-m) 0;
+  border: 1px solid #444; padding: var(--space-s);
+}
+fieldset legend {
+  padding: 0 0.5rem;
+}
 button {
-    padding: 12px;
-    margin: 10px;
-    border: none;
-    border-radius: 6px;
-    background: #38bdf8;
-    cursor: pointer;
+  padding: var(--space-s) var(--space-m);
+  margin: var(--space-s) 0;
+  border: none; border-radius: var(--border-radius);
+  background: var(--color-primary); color: var(--color-text-dark);
+  font-size: 1rem; cursor: pointer;
+}
+button:hover, button:focus-visible {
+  background: var(--color-secondary);
+}
+button[type="button"][onclick*="reset"] {
+  background: transparent; color: var(--color-secondary);
+  border: 2px solid var(--color-secondary);
 }
 
-.container {
-    max-width: 600px;
-    margin: auto;
+/* Days input rows */
+.days-input { display: flex; flex-wrap: wrap; gap: var(--space-m); }
+.day-row { flex: 1 1 120px; }
+.day-row input { width: 100%; }
+
+/* Table and rows (use CSS Grid for layout) */
+.table { max-width: 900px; margin: var(--space-m) auto; }
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  padding: var(--space-s) var(--space-m);
+  border-bottom: 1px solid #333;
+}
+.header { background: var(--color-primary); color: var(--color-text-dark); font-weight: bold; }
+.row:not(.header):nth-child(even) {
+  background: rgba(255,255,255,0.05);
+}
+.row:not(.header):hover { background: rgba(56,189,248,0.2); }
+/* Highlight today's row */
+.row.today { background: var(--color-secondary); color: var(--color-text-dark); }
+
+/* Table cell content */
+.row div { padding: 0 var(--space-s); }
+
+/* Responsive: stack columns on mobile */
+@media (max-width: 600px) {
+  .row { grid-template-columns: 1fr; }
+  .header { display: none; }
+  .row div { display: flex; justify-content: space-between; }
+  .row div::before { font-weight: bold; margin-right: var(--space-s); }
+  /* Prefix each cell with its label */
+  .row div:nth-child(1)::before { content: "Date: "; }
+  .row div:nth-child(2)::before { content: "Day: "; }
+  .row div:nth-child(3)::before { content: "Subjects: "; }
+}
+
+/* Task list styling (checkboxes) */
+.task {
+  display: flex; align-items: center; gap: var(--space-s);
+  margin: var(--space-s) 0;
+}
+input[type="checkbox"] {
+  transform: scale(1.2);
+  accent-color: var(--color-primary);
 }
