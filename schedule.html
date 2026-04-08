@@ -13,25 +13,33 @@
 <script src="core.js"></script>
 <script>
 
-// schedule already loaded from core.js
+let schedule = JSON.parse(localStorage.getItem("schedule")) || {};
 
 let div = document.getElementById("schedule");
+div.innerHTML = "";
 
 if(Object.keys(schedule).length === 0){
     div.innerHTML = "<p>No schedule found. Go create one first.</p>";
 }else{
     for(let day in schedule){
-        let html = `<h3>${day}</h3>`;
 
-        schedule[day].forEach(t=>{
-            html += `<p>${t.subject} - ${t.duration} hr</p>`;
-        });
+        let readableDate = new Date(day).toDateString();
+        let html = `<h3>${readableDate}</h3>`;
+
+        if(schedule[day] && schedule[day].length > 0){
+            schedule[day].forEach(t=>{
+                html += `<p>${t.subject} - ${t.duration} hr</p>`;
+            });
+        } else {
+            html += `<p>No study planned</p>`;
+        }
 
         div.innerHTML += html;
     }
 }
 
 </script>
+
 
 </body>
 </html>

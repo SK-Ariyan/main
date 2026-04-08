@@ -24,6 +24,8 @@
     <button onclick="nextDay()">Next Day</button>
     <button onclick="generate()">Generate Schedule</button>
 </div>
+<div id="output"></div>
+
 </div>
 
 <script src="core.js"></script>
@@ -32,12 +34,18 @@ let days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunda
 let index = 0;
 let weeklyTime = {};
 
-// ------------------- NEXT DAY -------------------
+
+
 function nextDay(){
+    if(index >= days.length){
+        alert("All days already entered!");
+        return;
+    }
+
     let h = +document.getElementById("hours").value;
 
-    if(!h){
-        alert("Enter hours first");
+    if(isNaN(h) || h < 0){
+        alert("Enter valid hours");
         return;
     }
 
@@ -51,9 +59,11 @@ function nextDay(){
         alert("✅ All days entered! Now click Generate.");
         document.getElementById("dayTitle").innerText = "All days entered";
     }
+
+    console.log("WeeklyTime:", weeklyTime); // 👈 DEBUG
 }
 
-// ------------------- GENERATE -------------------
+
 function generate(){
     if(Object.keys(weeklyTime).length < 7){
         alert("Please enter hours for all 7 days first!");
@@ -67,17 +77,45 @@ function generate(){
     }
 
     let weakInput = document.getElementById("weak").value;
-
     let subjects = parseSubjects(subjectsInput);
 
     createSchedule(subjects, weakInput, weeklyTime);
 
-    // Save schedule
-    localStorage.setItem("schedule", JSON.stringify(schedule));
-
-    alert("✅ Schedule Created Successfully!");
-    window.location.href = "schedule.html";
+    showSchedule(); // 👈 display here
 }
+
+function showSchedule(){
+    let div = document.getElementById("output");
+    div.innerHTML = "";
+
+    for(let day in schedule){
+        let readable = new Date(day).toDateString();
+
+        let html = `<div class="day-card">`;
+        html += `<h3>${readable}</h3>`;
+
+        if(schedule[day].length > 0){
+            schedule[day].forEach(t=>{
+                html += `
+                    <div class="task">
+                        <span>${t.subject}</span>
+                        <span class="duration">${t.duration} hr</span>
+                    </div>
+                `;
+            });
+        } else {
+            html += `<p class="empty">No study planned</p>`;
+        }
+
+        html += `</div>`;
+
+        div.innerHTML += html;
+    }
+}
+
+
+
+
 </script>
 
 </body>
