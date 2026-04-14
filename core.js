@@ -41,7 +41,7 @@ function createSchedule(subjects, weak, weeklyTime){
 
     let start = new Date();
 
-    for(let i = 0; i < 365; i++){
+    for(let i = 0; i < 7; i++){
         let date = new Date(start);
         date.setDate(start.getDate() + i);
 
